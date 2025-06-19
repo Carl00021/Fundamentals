@@ -26,6 +26,13 @@ from Edgar_Company_Facts import get_cik, get_financial_data
 from Fred_API import fred_get_series
 import yfinance as yf
 
+#Inputs --------------------------------------------------------------------------
+start = dt.datetime(1985,1,1)
+end = dt.datetime.now()
+industry_name = 'AUTO'
+stocks =['JELD', 'OC']
+#----------------------------------------------------------------------------------
+
 
 #auto to prevent botting
 headers = {'User-Agent': "karl.maple.beans@gmail.com"}
@@ -33,7 +40,6 @@ headers = {'User-Agent': "karl.maple.beans@gmail.com"}
 #Helps get around Rate Limit Requests
 from curl_cffi import requests
 session = requests.Session(impersonate="chrome")
-
 
 def convert_df_group(df,yaxis_text = 'Period Over Period Change',columns=0):
     list_groups=[]
@@ -49,13 +55,6 @@ def get_yf_data (stock,start,end):
     df = yf.Ticker(stock,session=session).history(start=start,end=end).tz_localize(None)
     df = df.reindex(pd.date_range(start, end, freq='D')).dropna(axis=0, how = 'any')
     return df
-
-"""Inputs"""
-start = dt.datetime(1985,1,1)
-end = dt.datetime.now()
-industry_name = 'AUTO'
-stocks =['TSLA','GM','F']
-
 
 """Get Data"""
 ciklist = [get_cik(i) for i in stocks]
@@ -104,7 +103,8 @@ df_cal_ltm = pd.concat([df_cal_ltm,df_ltm_industry],axis=1)
 
 
 #Create PDF
-pdf = PdfPages(industry_name + " Industry as of "+dt.datetime.now().strftime("%Y-%m-%d")+'.pdf')
+os.makedirs('Reports', exist_ok=True)
+pdf = PdfPages(f"Reports/{industry_name} Industry as of {dt.datetime.now():%Y-%m-%d}.pdf")
 
 
 """Industry"""

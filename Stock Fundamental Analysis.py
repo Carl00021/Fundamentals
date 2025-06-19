@@ -33,14 +33,19 @@ from Edgar_Company_Facts import get_cik, get_financial_data
 from Fred_API import fred_get_series
 import yfinance as yf
 
+#Inputs --------------------------------------------------------------------------
+"""Inputs"""
+start = dt.datetime(1985,1,1)
+end = dt.datetime.now()
+stock ='ROKU'
+#----------------------------------------------------------------------------------
+
 #auto to prevent botting
 headers = {'User-Agent': "karl.maple.beans@gmail.com"}
-
 
 #Helps get around Rate Limit Requests
 from curl_cffi import requests
 session = requests.Session(impersonate="chrome")
-
 
 def convert_df_group(df,yaxis_text = 'Period Over Period Change',columns=0):
     list_groups = []
@@ -193,12 +198,6 @@ def transform_data(df):
     df = df[df.index > start]
     return df
 
-
-"""Inputs"""
-start = dt.datetime(1985,1,1)
-end = dt.datetime.now()
-stock ='CWK'
-
 """Get Data"""
 ciklist = get_cik(stock)
 list_quarterly_data = []
@@ -247,8 +246,8 @@ df_cal_ltm = pd.concat([df_cal_ltm,df_stock],axis=1)
 
 
 #Create PDF
-pdf = PdfPages(stock + " as of "+dt.datetime.now().strftime("%Y-%m-%d")+'.pdf')
-
+os.makedirs('Reports', exist_ok=True)
+pdf = PdfPages(f"Reports/{stock} as of {dt.datetime.now():%Y-%m-%d}.pdf")
 
 """Company"""
 #Sales
