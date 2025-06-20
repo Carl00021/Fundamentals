@@ -2,10 +2,6 @@
 """
 Created on Sun Feb 11 02:34:44 2024
 
-@author: HB
-
-Last Updated: 2024-10-19
-
 """
 
 import requests
@@ -29,8 +25,8 @@ import yfinance as yf
 #Inputs --------------------------------------------------------------------------
 start = dt.datetime(1985,1,1)
 end = dt.datetime.now()
-industry_name = 'AUTO'
-stocks =['JELD', 'OC']
+industry_name = 'STREAMING'
+stocks =['NFLX', 'ROKU','DIS','WBD','PARA']
 #----------------------------------------------------------------------------------
 
 
@@ -101,11 +97,9 @@ df_ltm_industry = df_quarterly_industry.rolling(4).sum()
 df_cal_quarterly = pd.concat([df_cal_quarterly,df_quarterly_industry],axis=1)
 df_cal_ltm = pd.concat([df_cal_ltm,df_ltm_industry],axis=1)
 
-
 #Create PDF
 os.makedirs('Reports', exist_ok=True)
 pdf = PdfPages(f"Reports/{industry_name} Industry as of {dt.datetime.now():%Y-%m-%d}.pdf")
-
 
 """Industry"""
 #Sales

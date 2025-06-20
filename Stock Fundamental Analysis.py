@@ -2,8 +2,6 @@
 """
 Created on Sun Nov 10 01:57:21 2024
 
-@author: HB
-
 V1 Initial.
 V1.1 Added EV/S Drawdown This avoid infinite error if margins go negative.
 v1.2 Fixed YF Update
@@ -37,7 +35,7 @@ import yfinance as yf
 """Inputs"""
 start = dt.datetime(1985,1,1)
 end = dt.datetime.now()
-stock ='ROKU'
+stock ='NFLX'
 #----------------------------------------------------------------------------------
 
 #auto to prevent botting
